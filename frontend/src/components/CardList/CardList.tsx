@@ -11,7 +11,7 @@ interface CardListProps {
 const CardList: React.FC<CardListProps> = ({ companies, onAddToPortfolio: onAddToPortfolio }: CardListProps) => {
   return (
     <>
-      {companies.length === 0 && <p>No results</p>} 
+      {companies.length === 0 && <p>Search: no results</p>} 
       <ul>
         {companies.map((company) => (
         <li key={uuidv4()}>

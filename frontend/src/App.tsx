@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent, type KeyboardEvent, } from 'react';
+import { useState, type ChangeEvent, type KeyboardEvent } from 'react';
 import CardList from './components/CardList/CardList';
 import Search from './components/Search/Search';
 import './App.css';
@@ -12,7 +12,6 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [portfolioItems, setPortfolioItems] = useState<string[]>([]);
 
-
   const searchOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
   };
@@ -22,11 +21,11 @@ const App: React.FC = () => {
     if (portfolioItems.includes(e.target[0].value)) {
       return;
     }
-    const portfolioUpdate = [...portfolioItems, e.target[0].value]
+    const portfolioUpdate = [...portfolioItems, e.target[0].value];
     setPortfolioItems(portfolioUpdate);
-  }
+  };
   const onKeyDown = async (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter')  {
+    if (event.key === 'Enter') {
       setLoading(true);
       const result = await searchCompanies(search);
 
@@ -42,21 +41,25 @@ const App: React.FC = () => {
 
   const onDeleteFromPortfolio = (e: any) => {
     console.log('onDeleteFromPortfolio');
-    const portfolioUpdate = portfolioItems.filter((item) => item !== e.target.value);
+    const portfolioUpdate = portfolioItems.filter(
+      (item) => item !== e.target.value
+    );
     setPortfolioItems(portfolioUpdate);
-  }
+  };
 
   return (
     <>
-    
-      <Search onChange={searchOnChange} onKeyDown={onKeyDown} search={search}/>
-      <ListPortfolio portfolioItems={portfolioItems} onDeleteFromPortfolio={onDeleteFromPortfolio}/>
+      <Search onChange={searchOnChange} onKeyDown={onKeyDown} search={search} />
+      {portfolioItems.length > 0 && (
+        <ListPortfolio
+          portfolioItems={portfolioItems}
+          onDeleteFromPortfolio={onDeleteFromPortfolio}
+        />
+      )}
       {loading && <p>Loading...</p>}
       {serverError ? <p>{serverError}</p> : <CardList companies={searchResponse} onAddToPortfolio={onAddToPortfolio}/>}
-
-      
     </>
   );
-}
+};
 
 export default App;
