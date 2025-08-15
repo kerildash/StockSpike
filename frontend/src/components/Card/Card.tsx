@@ -1,32 +1,27 @@
+import type { CompanySearch } from '../../api';
 import AddToPortfolio from '../Portfolio/AddToPortfolio/AddToPortfolio';
 import styles from './Card.module.css';
-import React from 'react';
+import React, { type SyntheticEvent } from 'react';
 
 interface CardProps {
-  symbol: string;
-  currency: string;
-  exchangeFullName: string;
-  name: string;
-  exchange: string;
+  company : CompanySearch;
+  onAddToPortfolio: (e: SyntheticEvent) => void;
 }
 
 const Card: React.FC<CardProps> = ({
-  symbol,
-  currency,
-  exchangeFullName,
-  name,
-  exchange,
+  company, 
+  onAddToPortfolio: onAddToPortfolio
 }: CardProps) => {
   return (
     <div className={styles.card}>
       <div className={styles.details}>
-        <h2>{symbol}</h2>
-        <p>Currency: {currency}</p>
-        <p>Exchange: {exchangeFullName}</p>
-        <p>Name: {name}</p>
-        <p>Exchange Code: {exchange}</p>
+        <h2>{company.symbol}</h2>
+        <p>Currency: {company.currency}</p>
+        <p>Exchange: {company.exchangeFullName}</p>
+        <p>Name: {company.name}</p>
+        <p>Exchange Code: {company.exchange}</p>
       </div>
-      <AddToPortfolio onSubmit={() => {}} symbol={symbol}/>
+      <AddToPortfolio onSubmit={onAddToPortfolio} symbol={company.symbol}/>
     </div>
   );
 };
