@@ -1,21 +1,16 @@
-import { type ChangeEvent, type FC, type KeyboardEvent } from "react";
-import Search from "../Search/Search";
-interface INavbarProps {
-    searchOnChange: (event: ChangeEvent<HTMLInputElement>) => void;
-    onKeyDown: (event: KeyboardEvent<HTMLInputElement>) => void;
-    search: string;
-};
+import { type FC } from "react";
+import { Link } from "react-router-dom";
 
-export const Navbar: FC<INavbarProps> = ({ searchOnChange, onKeyDown, search }: INavbarProps) => {
+export const Navbar: FC = () => {
     return (
         <nav className="bg-gray-800 p-4">
             <div className="container mx-auto flex items-center">
-                <a href="/" className="text-white text-2xl font-bold ml-12 mr-12">
+                <Link to="/" className="text-white text-2xl font-bold ml-12 mr-12">
                     stock📈spike
-                </a>
-                <div className="flex-1 max-w-lg ml-8">
-                    <Search onChange={searchOnChange} onKeyDown={onKeyDown} search={search} />
-                </div>
+                </Link>
+                <Link to="/search" className="text-white text-lg ml-12 mr-12 hover:text-gray-300 transition-colors duration-200">
+                    Search
+                </Link>
             </div>
         </nav>
     );

@@ -21,8 +21,9 @@ const AddToPortfolio: React.FC<AddToPortfolioProps> = ({
         <button 
           type='submit'
           className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium py-2 px-4 rounded cursor-pointer transition-colors duration-200"
+          title="Add to Portfolio"
         >
-          Add to Portfolio
+          💼
         </button>
       </form>
     </>
