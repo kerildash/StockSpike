@@ -1,6 +1,5 @@
 import type { CompanySearch } from '../../api';
 import AddToPortfolio from '../Portfolio/AddToPortfolio/AddToPortfolio';
-import styles from './Card.module.css';
 import React, { type SyntheticEvent } from 'react';
 
 interface CardProps {
@@ -13,15 +12,27 @@ const Card: React.FC<CardProps> = ({
   onAddToPortfolio: onAddToPortfolio
 }: CardProps) => {
   return (
-    <div className={styles.card}>
-      <div className={styles.details}>
-        <h2>{company.symbol}</h2>
-        <p>Currency: {company.currency}</p>
-        <p>Exchange: {company.exchangeFullName}</p>
-        <p>Name: {company.name}</p>
-        <p>Exchange Code: {company.exchange}</p>
+    <div className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 border border-gray-200 flex flex-col h-full">
+      <div className="flex-1">
+        <h2 className="text-xl font-bold text-gray-900 mb-4">{company.symbol}</h2>
+        <div className="space-y-2 text-sm">
+          <p className="text-gray-600">
+            <span className="font-medium text-gray-800">Currency:</span> {company.currency}
+          </p>
+          <p className="text-gray-600">
+            <span className="font-medium text-gray-800">Exchange:</span> {company.exchangeFullName}
+          </p>
+          <p className="text-gray-600">
+            <span className="font-medium text-gray-800">Name:</span> {company.name}
+          </p>
+          <p className="text-gray-600">
+            <span className="font-medium text-gray-800">Exchange Code:</span> {company.exchange}
+          </p>
+        </div>
       </div>
-      <AddToPortfolio onSubmit={onAddToPortfolio} symbol={company.symbol}/>
+      <div className="mt-6 pt-4 border-t border-gray-100">
+        <AddToPortfolio onSubmit={onAddToPortfolio} symbol={company.symbol}/>
+      </div>
     </div>
   );
 };
