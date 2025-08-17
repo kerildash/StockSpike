@@ -15,19 +15,19 @@ const Card: React.FC<CardProps> = ({
   return (
     <div className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 border border-gray-200 flex flex-col h-full">
       <div className="flex-1">
-        <Link to={`/company/${company.symbol}`} className="text-xl font-bold text-gray-900 mb-4">{company.symbol}</Link>
+        <div className='mb-4 text-center'>
+          <Link to={`/company/${company.symbol}`} className="text-xl font-bold text-gray-900 mb-4 cursor-pointer py-2 px-8 hover:m-px hover:border hover:border-gray-300 rounded-lg">{company.symbol}</Link>
+        </div>
+        
         <div className="space-y-2 text-sm">
-          <p className="text-gray-600">
-            <span className="font-medium text-gray-800">Currency:</span> {company.currency}
+          <p className="font-medium text-gray-800">
+            {company.name}
           </p>
-          <p className="text-gray-600">
-            <span className="font-medium text-gray-800">Exchange:</span> {company.exchangeFullName}
+          <p className="font-medium text-gray-800">
+            {`${company.exchange} / ${company.exchangeFullName}`}
           </p>
-          <p className="text-gray-600">
-            <span className="font-medium text-gray-800">Name:</span> {company.name}
-          </p>
-          <p className="text-gray-600">
-            <span className="font-medium text-gray-800">Exchange Code:</span> {company.exchange}
+          <p className="font-medium text-gray-800">
+            {company.currency}
           </p>
         </div>
       </div>

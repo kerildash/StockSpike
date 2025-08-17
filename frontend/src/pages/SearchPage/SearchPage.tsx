@@ -1,7 +1,6 @@
 import { type FC, useState, type ChangeEvent, type KeyboardEvent } from 'react';
 import { searchCompanies, type CompanySearch } from '../../api';
 import { ListPortfolio } from '../../components/Portfolio/ListPortfolio/ListPortfolio';
-import { Navbar } from '../../components/Navbar/Navbar';
 import CardList from '../../components/CardList/CardList';
 import Search from '../../components/Search/Search';
 
