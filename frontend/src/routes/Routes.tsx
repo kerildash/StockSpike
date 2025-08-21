@@ -2,6 +2,9 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import { SearchPage } from '../pages/SearchPage/SearchPage';
 import { CompanyInfoPage } from '../pages/CompanyInfoPage/CompanyInfoPage';
+import { IncomeStatement } from '../components/CompanyInfo/IncomeStatement/IncomeStatement';
+import { CompanyProfile } from '../components/CompanyInfo/CompanyProfile/CompanyProfile';
+import { BalanceSheet } from '../components/CompanyInfo/BalanceSheet/BalanceSheet';
 
 export const router = createBrowserRouter([
   {
@@ -18,11 +21,15 @@ export const router = createBrowserRouter([
         children: [
           {
             path: 'company-profile',
-            element: <CompanyInfoPage />
+            element: <CompanyProfile />
           },
           {
             path: 'income-statement',
-            element: <CompanyInfoPage />
+            element: <IncomeStatement />
+          },
+          {
+            path: 'balance-sheet',
+            element: <BalanceSheet />
           },
         ],
       },

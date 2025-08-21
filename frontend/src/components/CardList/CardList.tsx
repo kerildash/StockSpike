@@ -1,10 +1,10 @@
 import React, { type SyntheticEvent } from 'react';
 import Card from '../Card/Card';
-import { type CompanySearch } from '../../api';
+import { type ICompanySearch } from '../../api';
 import { v4 as uuidv4 } from 'uuid';
 
 interface CardListProps {
-  companies: CompanySearch[];
+  companies: ICompanySearch[];
   onAddToPortfolio: (e: SyntheticEvent) => void;
 }
 

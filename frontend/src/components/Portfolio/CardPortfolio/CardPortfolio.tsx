@@ -7,7 +7,7 @@ interface ICardPortfolioProps {
 
 export const CardPortfolio: FC<ICardPortfolioProps> = ({portfolioItem, onDelete}: ICardPortfolioProps) => {
     return (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 flex items-center justify-between hover:shadow-md transition-shadow duration-200">
+        <div className="bg-white rounded-lg  border border-gray-200 p-4 flex items-center justify-between hover:border-gray-400 duration-200">
             <Link to={`/company/${portfolioItem}`} className="text-gray-900 font-medium">{portfolioItem}</Link>
             <button 
                 onClick={onDelete} 

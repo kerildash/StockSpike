@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export const Navbar: FC = () => {
     return (
-        <nav className="bg-gray-800 p-4">
+        <nav className="bg-gray-800 p-4 sticky">
             <div className="container mx-auto flex items-center">
                 <Link to="/" className="text-white text-2xl font-bold ml-12 mr-12">
                     stock📈spike

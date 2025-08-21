@@ -1,14 +1,15 @@
 import { type FC, useState, type ChangeEvent, type KeyboardEvent } from 'react';
-import { searchCompanies, type CompanySearch } from '../../api';
+import { searchCompanies, type ICompanySearch } from '../../api';
 import { ListPortfolio } from '../../components/Portfolio/ListPortfolio/ListPortfolio';
 import CardList from '../../components/CardList/CardList';
 import Search from '../../components/Search/Search';
+import Loading from '../../components/Loading/Loading';
 
 interface ISearchPageProps {}
 
 export const SearchPage: FC<ISearchPageProps> = (props) => {
   const [search, setSearch] = useState<string>('');
-  const [searchResponse, setSearchResponse] = useState<CompanySearch[]>([]);
+  const [searchResponse, setSearchResponse] = useState<ICompanySearch[]>([]);
   const [serverError, setServerError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [portfolioItems, setPortfolioItems] = useState<string[]>([]);
@@ -56,15 +57,10 @@ export const SearchPage: FC<ISearchPageProps> = (props) => {
         {/* First Column - CardList and Loading */}
         <div className='flex-1 min-w-[20rem] p-6'>
           <Search onChange={searchOnChange} onKeyDown={onKeyDown} search={search} />
-          {loading && (
-            <div className='flex justify-center items-center py-12'>
-              <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600'></div>
-              <p className='ml-4 text-lg text-gray-600 font-medium'>
-                Loading...
-              </p>
-            </div>
-          )}
-          {serverError ? (
+          {loading ? (
+            <Loading />
+          ):
+          serverError ? (
             <div className='bg-red-50 border border-red-200 rounded-lg p-6 text-center'>
               <div className='text-red-400 text-4xl mb-4'>⚠️</div>
               <p className='text-red-700 font-medium text-lg'>{serverError}</p>
@@ -78,7 +74,7 @@ export const SearchPage: FC<ISearchPageProps> = (props) => {
         </div>
 
         {/* Second Column - Portfolio */}
-        <div className='hidden lg:block w-80 bg-white border-l border-gray-200 shadow-lg'>
+        <div className='hidden lg:block w-80 bg-white border-1 border-gray-200'>
           <div className='sticky top-0 h-screen overflow-y-auto'>
             <div className='p-6'>
               <h2 className='text-2xl font-bold text-gray-900 mb-6 border-b border-gray-200 pb-3'>
