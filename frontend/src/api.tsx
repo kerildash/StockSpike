@@ -196,6 +196,60 @@ export interface ICompanyBalanceSheetStatement {
   totalDebt: number;
   netDebt: number;
 }
+
+
+export interface ICompanyCashflowStatement {
+  date: string;
+  symbol: string;
+  reportedCurrency: string;
+  cik: string;
+  filingDate: string;
+  acceptedDate: string;
+  fiscalYear: string;
+  period: string;
+  netIncome: number;
+  depreciationAndAmortization: number;
+  deferredIncomeTax: number;
+  stockBasedCompensation: number;
+  changeInWorkingCapital: number;
+  accountsReceivables: number;
+  inventory: number;
+  accountsPayables: number;
+  otherWorkingCapital: number;
+  otherNonCashItems: number;
+  netCashProvidedByOperatingActivities: number;
+  investmentsInPropertyPlantAndEquipment: number;
+  acquisitionsNet: number;
+  purchasesOfInvestments: number;
+  salesMaturitiesOfInvestments: number;
+  otherInvestingActivities: number;
+  netCashProvidedByInvestingActivities: number;
+  netDebtIssuance: number;
+  longTermNetDebtIssuance: number;
+  shortTermNetDebtIssuance: number;
+  netStockIssuance: number;
+  netCommonStockIssuance: number;
+  commonStockIssuance: number;
+  commonStockRepurchased: number;
+  netPreferredStockIssuance: number;
+  netDividendsPaid: number;
+  commonDividendsPaid: number;
+  preferredDividendsPaid: number;
+  otherFinancingActivities: number;
+  netCashProvidedByFinancingActivities: number;
+  effectOfForexChangesOnCash: number;
+  netChangeInCash: number;
+  cashAtEndOfPeriod: number;
+  cashAtBeginningOfPeriod: number;
+  operatingCashFlow: number;
+  capitalExpenditure: number;
+  freeCashFlow: number;
+  incomeTaxesPaid: number;
+  interestPaid: number;
+}
+
+//TODO REDUCE REDUNDANCY
+
 export const searchCompanies = async (query: string) : Promise<ICompanySearch[] | string> => {
   const apiKey = import.meta.env.VITE_API_KEY;
   if (!apiKey) throw new Error('API key is not set');
@@ -234,6 +288,7 @@ export const getCompanyInfo = async (ticker: string) : Promise<ICompanyInfo | st
         },
       }
     );
+    console.log(response);
     return response.data[0];
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -326,3 +381,31 @@ export const getBalanceSheet = async (ticker: string) : Promise<ICompanyBalanceS
     }
   }
 };
+
+
+export const getCashflowStatement = async (ticker: string) : Promise<ICompanyCashflowStatement[] | string> => {
+  const apiKey = import.meta.env.VITE_API_KEY;
+  if (!apiKey) throw new Error('API key is not set');
+  try {
+    const response = await axios.get<ICompanyCashflowStatement[]>(
+      `https://financialmodelingprep.com/stable/cash-flow-statement`,
+      {
+        params: {
+          symbol: ticker,
+          apikey: apiKey,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error('Error getting company info:', error.message);
+      return 'Error getting company info';
+    }
+    else {
+      console.error('unexpected error', error);
+      return 'Unexpected error';
+    }
+  }
+};
+
