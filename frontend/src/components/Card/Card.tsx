@@ -32,7 +32,7 @@ const Card: React.FC<CardProps> = ({
         </div>
       </div>
       <div className="mt-6 pt-4 border-t border-gray-200 flex gap-3">
-        <Link title='View company details' to={`/company/${company.symbol}`} className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded cursor-pointer transition-colors duration-200 whitespace-nowrap">
+        <Link title='View company details' to={`/company/${company.symbol}/company-profile`} className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded cursor-pointer transition-colors duration-200 whitespace-nowrap">
           📊
         </Link>
         <AddToPortfolio onSubmit={onAddToPortfolio} symbol={company.symbol}/>
