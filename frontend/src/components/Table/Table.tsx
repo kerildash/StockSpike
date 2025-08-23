@@ -8,7 +8,7 @@ interface ITableProps {
 export const Table: FC<ITableProps> = ({ data, config }: ITableProps) => {
   const renderredRows = data.map((item: any) => {
     return (
-      <tr className=' p-4 border-b-1 border-gray-200' key={item.date}>
+      <tr className=' py-4 px-5 border-b-1 border-gray-200' key={item.date}>
         {config.map((value: any) => {
           return (
             <td className='whitespace-nowrap p-4 text-sm font-normal text-gray-900'>
@@ -23,7 +23,7 @@ export const Table: FC<ITableProps> = ({ data, config }: ITableProps) => {
     return (
       <th
         key={item.label}
-        className=' p-4 border-b-2 border-gray-200 text-left text-xs font-medium text-gray-900 tracking-wide'
+        className=' whitespace-nowrap px-4 pb-2 pt-2 border-b-2 border-gray-200 text-left text-xs font-medium text-gray-900 tracking-wide'
       >
         {item.label}
       </th>

@@ -29,7 +29,7 @@ export const RatioList: FC<IRatioListProps> = ({config, data} : IRatioListProps)
     );
   });
   return (
-    <div className='bg-white border-1 border-gray-200 rounded-lg p-6 w-full'>
+    <div className='bg-white border-1 border-gray-200 rounded-lg p-5 w-full'>
       <ul className='divide-y divide-gray-200'>{renderedItem}</ul>
     </div>
   );
