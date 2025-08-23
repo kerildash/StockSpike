@@ -63,42 +63,26 @@ export const CompanyInfoPage: FC<ICompanyInfoPageProps> = (props) => {
       <div className='w-full relative overflow-x-hidden'>
         <Sidebar />
         <div className='md:ml-70'>
-          <Dashboard ticker={ticker!}>
+          <Dashboard ticker={ticker!} description={companyInfo?.description!}>
             {loading ? (
               <div>Loading...</div>
             ) : (
-              <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 pb-5'>
+              <div className='grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-5 pb-5'>
                 <BigTile
                   title='Company Name'
                   info={companyInfo?.companyName!}
+                />                
+                <BigTile
+                  title='Sector'
+                  info={companyInfo?.sector!}
                 />
                 <BigTile
                   title='Stock Price'
-                  info={`${format(companyInfo?.price)}`}
+                  info={`$${format(companyInfo?.price)}`}
                 />
                 <BigTile
                   title='Market Cap'
-                  info={`${format(companyInfo?.marketCap)}`}
-                />
-                
-                <BigTile
-                  title='Market Cap'
-                  info={`${format(companyInfo?.marketCap)}`}
-                />
-                
-                <BigTile
-                  title='Market Cap'
-                  info={`${format(companyInfo?.marketCap)}`}
-                />
-                
-                <BigTile
-                  title='Market Cap'
-                  info={`${format(companyInfo?.marketCap)}`}
-                />
-                
-                <BigTile
-                  title='Market Cap'
-                  info={`${format(companyInfo?.marketCap)}`}
+                  info={`$${format(companyInfo?.marketCap)}`}
                 />
               </div>
             )}

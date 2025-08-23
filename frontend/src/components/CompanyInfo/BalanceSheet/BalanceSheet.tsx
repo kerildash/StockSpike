@@ -87,7 +87,7 @@ const configs = [
   },
 ];
 export const BalanceSheet: FC<IBalanceSheetProps> = (props) => {
-  const ticker = useOutletContext<string>();
+  const {ticker} = useOutletContext<{ticker: string}>();
   const [balanceSheet, setBalanceSheet] = useState<ICompanyBalanceSheetStatement[]>();
   useEffect(() => {
     const fetchBalanceSheet = async () => {

@@ -3,6 +3,7 @@ import { getTtmKeyMetrics, type IKeyMetricsTtm } from '../../../api';
 import { RatioList } from '../../RatioList/RatioList';
 import { useOutletContext } from 'react-router-dom';
 import Loading from '../../Loading/Loading';
+import { ExpandableText } from '../../ExpandableText/ExpandableText';
 interface ICompanyProfileProps {}
 
 const tableConfig = [
@@ -65,7 +66,7 @@ const tableConfig = [
 
 
 export const CompanyProfile: FC<ICompanyProfileProps> = (props) => {
-  const ticker = useOutletContext<string>();
+  const {ticker, description} = useOutletContext<{ticker: string, description: string}>();
   const [keyMetrics, setKeyMetrics] = useState<IKeyMetricsTtm>();
   useEffect(() => {
     const getKeyMetrics = async () => {
@@ -80,6 +81,11 @@ export const CompanyProfile: FC<ICompanyProfileProps> = (props) => {
   }, []);
   return (
     <div>
+      <ExpandableText 
+        text={description} 
+        maxSentences={3} 
+        className='mb-5' 
+      />
       {keyMetrics ? <RatioList config={tableConfig} data={keyMetrics} /> : <Loading />}
     </div>
   );

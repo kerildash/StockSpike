@@ -63,7 +63,7 @@ const configs = [
   },
 ];
 export const IncomeStatement: FC<IIncomeStatementProps> = (props) => {
-  const ticker = useOutletContext<string>();
+  const {ticker} = useOutletContext<{ticker: string}>();
   const [incomeStatement, setIncomeStatement] = useState<ICompanyIncomeStatement[]>();
   useEffect(() => {
     const fetchIncomeStatement = async () => {

@@ -47,7 +47,7 @@ const configs = [
   },
 ];
 export const CashflowStatement: FC<ICashflowStatementProps> = (props) => {
-  const ticker = useOutletContext<string>();
+  const {ticker} = useOutletContext<{ticker: string}>();
   const [cashflowStatement, setCashflowStatement] = useState<ICompanyCashflowStatement[]>();
   useEffect(() => {
     const fetchCashflowStatement = async () => {
