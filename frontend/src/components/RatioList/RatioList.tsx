@@ -7,7 +7,7 @@ interface IRatioListProps {
 
 export const RatioList: FC<IRatioListProps> = ({config, data} : IRatioListProps) => { 
   const format = (number: number): string => {
-    return number > 1000000000 ? `${(number / 1000000000).toFixed(2)} B` : number > 1000000 ? `${(number / 1000000).toFixed(2)} M` : number > 1000 ? `${(number / 1000).toFixed(2)} K` : number.toFixed(3)
+    return number > 1000000000 ? `${(number / 1000000000).toFixed(2)} B` : number > 1000000 ? `${(number / 1000000).toFixed(2)} M` : number > 1000 ? `${(number / 1000).toFixed(2)} K` : number >=10 ? `${number.toFixed(2)}` : number.toFixed(3)
   }
   const renderedItem = config.map((item: any) => {
     return (

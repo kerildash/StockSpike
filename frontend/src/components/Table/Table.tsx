@@ -5,10 +5,10 @@ interface ITableProps {
   config: any;
 }
 
-export const Table: FC<ITableProps> = ({data, config} : ITableProps) => {
+export const Table: FC<ITableProps> = ({ data, config }: ITableProps) => {
   const renderredRows = data.map((item: any) => {
     return (
-      <tr key={item.date}>
+      <tr className=' p-4 border-b-1 border-gray-200' key={item.date}>
         {config.map((value: any) => {
           return (
             <td className='whitespace-nowrap p-4 text-sm font-normal text-gray-900'>
@@ -23,16 +23,20 @@ export const Table: FC<ITableProps> = ({data, config} : ITableProps) => {
     return (
       <th
         key={item.label}
-        className='p-4 text-left text-xs font-medium text-gray-900 tracking-wider'
+        className=' p-4 border-b-2 border-gray-200 text-left text-xs font-medium text-gray-900 tracking-wide'
       >
         {item.label}
       </th>
     );
   });
-  return <div className='p-3 bg-white rounded-lg transition-shadow duration-300 border border-gray-200'>
-    <table>
-        <thead>{renderredHeader}</thead>
-        <tbody>{renderredRows}</tbody>
-    </table>
-  </div>;
+  return (
+    <div className='p-3 bg-white rounded-lg border border-gray-200'>
+      <div className='overflow-x-scroll'>
+        <table className='min-w-full'>
+          <thead >{renderredHeader}</thead>
+          <tbody>{renderredRows}</tbody>
+        </table>
+      </div>
+    </div>
+  );
 };
