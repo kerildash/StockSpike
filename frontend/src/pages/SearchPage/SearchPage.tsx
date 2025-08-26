@@ -4,6 +4,7 @@ import { ListPortfolio } from '../../components/Portfolio/ListPortfolio/ListPort
 import CardList from '../../components/CardList/CardList';
 import Search from '../../components/Search/Search';
 import Loading from '../../components/Loading/Loading';
+import { ErrorTile } from '../../components/ErrorTile/ErrorTile';
 
 interface ISearchPageProps {}
 
@@ -61,10 +62,7 @@ export const SearchPage: FC<ISearchPageProps> = (props) => {
             <Loading />
           ):
           serverError ? (
-            <div className='bg-red-50 border border-red-200 rounded-lg p-6 text-center'>
-              <div className='text-red-400 text-4xl mb-4'>⚠️</div>
-              <p className='text-red-700 font-medium text-lg'>{serverError}</p>
-            </div>
+            <ErrorTile message={serverError} className='m-15' isWarning/>
           ) : (
             <CardList
               companies={searchResponse}
