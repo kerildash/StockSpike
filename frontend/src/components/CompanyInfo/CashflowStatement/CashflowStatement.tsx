@@ -1,68 +1,111 @@
 import { useEffect, useState, type FC } from 'react';
 import { Table } from '../../Table/Table';
-import { type ICompanyCashflowStatement, getCashflowStatement } from '../../../api';
-import { useOutletContext } from 'react-router-dom';
+import {
+  type ICompanyCashflowStatement,
+  getCashflowStatement,
+} from '../../../api';
+import { Link, useOutletContext } from 'react-router-dom';
 import Loading from '../../Loading/Loading';
+import { ErrorTile } from '../../ErrorTile/ErrorTile';
 interface ICashflowStatementProps {}
 const configs = [
   {
-    label: "Date",
+    label: 'Date',
     render: (company: ICompanyCashflowStatement) => company.date,
   },
   {
-    label: "Net Income",
+    label: 'Net Income',
     render: (company: ICompanyCashflowStatement) => company.netIncome,
   },
   {
-    label: "Net Cash From Operating Activities",
-    render: (company: ICompanyCashflowStatement) => company.netCashProvidedByOperatingActivities,
+    label: 'Net Cash From Operating Activities',
+    render: (company: ICompanyCashflowStatement) =>
+      company.netCashProvidedByOperatingActivities,
   },
   {
-    label: "Net Cash From Investing Activities",
-    render: (company: ICompanyCashflowStatement) => company.netCashProvidedByInvestingActivities,
+    label: 'Net Cash From Investing Activities',
+    render: (company: ICompanyCashflowStatement) =>
+      company.netCashProvidedByInvestingActivities,
   },
   {
-    label: "Net Dividends Paid",
+    label: 'Net Dividends Paid',
     render: (company: ICompanyCashflowStatement) => company.netDividendsPaid,
   },
   {
-    label: "Net Cash From Financing Activities",
-    render: (company: ICompanyCashflowStatement) => company.netCashProvidedByFinancingActivities,
+    label: 'Net Cash From Financing Activities',
+    render: (company: ICompanyCashflowStatement) =>
+      company.netCashProvidedByFinancingActivities,
   },
   {
-    label: "Net Change In Cash",
+    label: 'Net Change In Cash',
     render: (company: ICompanyCashflowStatement) => company.netChangeInCash,
   },
   {
-    label: "Operating Cash Flow",
+    label: 'Operating Cash Flow',
     render: (company: ICompanyCashflowStatement) => company.operatingCashFlow,
   },
   {
-    label: "Capital Expenditure",
+    label: 'Capital Expenditure',
     render: (company: ICompanyCashflowStatement) => company.capitalExpenditure,
   },
   {
-    label: "Free Cash Flow",
+    label: 'Free Cash Flow',
     render: (company: ICompanyCashflowStatement) => company.freeCashFlow,
   },
 ];
-export const CashflowStatement: FC<ICashflowStatementProps> = (props) => {
-  const {ticker} = useOutletContext<{ticker: string}>();
-  const [cashflowStatement, setCashflowStatement] = useState<ICompanyCashflowStatement[]>();
+export const CashflowStatement: FC<ICashflowStatementProps> = () => {
+  const { ticker } = useOutletContext<{ ticker: string }>();
+  const [cashflowStatement, setCashflowStatement] =
+    useState<ICompanyCashflowStatement[]>();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   useEffect(() => {
-    const fetchCashflowStatement = async () => {
-      const result = await getCashflowStatement(ticker);
-      if (typeof result === 'string') {
-        console.log('Error getting company info');
-      } else {
-        setCashflowStatement(result);
+    const getProfileInit = async () => {
+      try {
+        setLoading(true);
+        const result = await getCashflowStatement(ticker);
+
+        if (typeof result === 'string') {
+          setError(result);
+        } else if (result) {
+          setCashflowStatement(result);
+          setError(null);
+        } else {
+          setError('No company data found');
+        }
+      } catch (err) {
+        setError('Failed to fetch company info');
+      } finally {
+        setLoading(false);
       }
     };
-    fetchCashflowStatement();
+
+    getProfileInit();
   }, []);
   return (
     <div>
-      {cashflowStatement ? <Table data={cashflowStatement} config={configs} /> : <Loading />}
+      {loading ? (
+        <Loading />
+      ) : error ? (
+        <ErrorTile message='Cashflow statement not available.' isWarning>
+          <div>
+            <p className='text-yellow-700'>Please check another company, for example:</p>
+            <div className='mt-4 grid grid-cols-4 gap-2 w-fit mx-auto'>
+            {['AAPL', 'MSFT', 'TSLA', 'META'].map((ticker) => (
+              <Link
+                title='View company details'
+                to={`/company/${ticker}/company-profile`}
+                className='border-1 border-yellow-200 bg-white hover:border-green-300 hover:bg-green-100 text-gray-800 font-medium py-2 px-4 rounded cursor-pointer transition-colors duration-200 whitespace-nowrap'
+              >
+                {ticker}
+              </Link>
+            ))}
+            </div>
+          </div>
+        </ErrorTile>
+      ) : (
+        <Table data={cashflowStatement} config={configs} />
+      )}
     </div>
   );
 };

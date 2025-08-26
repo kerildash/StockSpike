@@ -1,12 +1,15 @@
 import { type FC, useEffect, useState } from 'react';
-interface ICompanyInfoPageProps {}
 import { getCompanyInfo, type ICompanyInfo } from '../../api';
 import { useParams } from 'react-router-dom';
 import { Sidebar } from '../../components/CompanyInfo/Sidebar/Sidebar';
 import { Dashboard } from '../../components/CompanyInfo/Dashboard/Dashboard';
 import { BigTile } from '../../components/CompanyInfo/BigTile/BigTile';
+import Loading from '../../components/Loading/Loading';
+import { ErrorTile } from '../../components/ErrorTile/ErrorTile';
 
-export const CompanyInfoPage: FC<ICompanyInfoPageProps> = (props) => {
+interface ICompanyInfoPageProps {}
+
+export const CompanyInfoPage: FC<ICompanyInfoPageProps> = () => {
   let { ticker } = useParams();
 
   const [loading, setLoading] = useState(true);
@@ -41,7 +44,7 @@ export const CompanyInfoPage: FC<ICompanyInfoPageProps> = (props) => {
     };
 
     getProfileInit();
-  }, []);
+  }, [ticker]);
   const format = (number: number | undefined): string => {
     return typeof number === 'undefined'
       ? 'N/A'
@@ -55,27 +58,24 @@ export const CompanyInfoPage: FC<ICompanyInfoPageProps> = (props) => {
       ? `${number.toFixed(2)} `
       : number.toFixed(3);
   };
-  console.log(ticker);
-  console.log(companyInfo);
 
   return (
     <div>
-      <div className='w-full relative overflow-x-hidden'>
-        <Sidebar />
-        <div className='md:ml-70'>
-          <Dashboard ticker={ticker!} description={companyInfo?.description!}>
-            {loading ? (
-              <div>Loading...</div>
-            ) : (
+      {loading ? (
+        <Loading />
+      ) : error ? (
+        <ErrorTile message={error} className='m-15' isWarning/>
+      ) : (
+        <div className='w-full relative overflow-x-hidden'>
+          <Sidebar />
+          <div className='md:ml-70'>
+            <Dashboard ticker={ticker!} description={companyInfo?.description!}>
               <div className='grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-5 pb-5'>
                 <BigTile
                   title='Company Name'
                   info={companyInfo?.companyName!}
-                />                
-                <BigTile
-                  title='Sector'
-                  info={companyInfo?.sector!}
                 />
+                <BigTile title='Sector' info={companyInfo?.sector!} />
                 <BigTile
                   title='Stock Price'
                   info={`$${format(companyInfo?.price)}`}
@@ -85,10 +85,10 @@ export const CompanyInfoPage: FC<ICompanyInfoPageProps> = (props) => {
                   info={`$${format(companyInfo?.marketCap)}`}
                 />
               </div>
-            )}
-          </Dashboard>
+            </Dashboard>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

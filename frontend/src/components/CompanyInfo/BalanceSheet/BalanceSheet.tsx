@@ -1,8 +1,9 @@
 import { useEffect, useState, type FC } from 'react';
 import { Table } from '../../Table/Table';
 import { type ICompanyBalanceSheetStatement, getBalanceSheet } from '../../../api';
-import { useOutletContext } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import Loading from '../../Loading/Loading';
+import { ErrorTile } from '../../ErrorTile/ErrorTile';
 interface IBalanceSheetProps {}
 const configs = [
   {
@@ -86,23 +87,59 @@ const configs = [
     render: (company: ICompanyBalanceSheetStatement) => company.netDebt,
   },
 ];
-export const BalanceSheet: FC<IBalanceSheetProps> = (props) => {
+export const BalanceSheet: FC<IBalanceSheetProps> = () => {
   const {ticker} = useOutletContext<{ticker: string}>();
   const [balanceSheet, setBalanceSheet] = useState<ICompanyBalanceSheetStatement[]>();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   useEffect(() => {
-    const fetchBalanceSheet = async () => {
-      const result = await getBalanceSheet(ticker);
-      if (typeof result === 'string') {
-        console.log('Error getting company info');
-      } else {
-        setBalanceSheet(result);
+    setLoading(true);
+    const getBalanceSheetInit = async () => {
+      try {
+        setLoading(true);
+        const result = await getBalanceSheet(ticker);
+
+        if (typeof result === 'string') {
+          setError(result);
+        } else if (result) {
+          setBalanceSheet(result);
+          setError(null);
+        } else {
+          setError('No company data found');
+        }
+      } catch (err) {
+        setError('Failed to fetch company info');
+      } finally {
+        setLoading(false);
       }
     };
-    fetchBalanceSheet();
+
+    getBalanceSheetInit();
   }, []);
   return (
     <div>
-      {balanceSheet ? <Table data={balanceSheet} config={configs} /> : <Loading />}
+      {loading ? (
+        <Loading />
+      ) : error ? (
+        <ErrorTile message='Balance sheet not available.' isWarning>
+          <div>
+            <p className='text-yellow-700'>Please check another company, for example:</p>
+            <div className='mt-4 grid grid-cols-4 gap-2 w-fit mx-auto'>
+            {['AAPL', 'MSFT', 'TSLA', 'META'].map((ticker) => (
+              <Link
+                title='View company details'
+                to={`/company/${ticker}/company-profile`}
+                className='border-1 border-yellow-200 bg-white hover:border-green-300 hover:bg-green-100 text-gray-800 font-medium py-2 px-4 rounded cursor-pointer transition-colors duration-200 whitespace-nowrap'
+              >
+                {ticker}
+              </Link>
+            ))}
+            </div>
+          </div>
+        </ErrorTile>
+      ) : (
+        <Table data={balanceSheet} config={configs} />
+      )}
     </div>
   );
 };
