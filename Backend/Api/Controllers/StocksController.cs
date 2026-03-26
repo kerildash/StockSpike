@@ -1,12 +1,11 @@
-﻿using Api.Database;
+﻿using Facet.Extensions;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
+using Api.Database;
 using Api.Dtos.Facet;
 using Api.Models;
 using Api.Queries;
-using Facet.Extensions;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.Linq.Expressions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers;
 
@@ -15,26 +14,22 @@ namespace Api.Controllers;
 public class StocksController(AppDbContext dbContext) : ControllerBase
 {
     [HttpGet("{id:guid}")]
-    public async Task<Results<Ok<StockResponseDto>, NotFound>> GetStockByIdAsync([FromRoute] Guid id)
+    public async Task<IActionResult> GetStockByIdAsync([FromRoute] Guid id)
     {
         Stock? stockFound = await dbContext.Stocks.FindAsync(id);
         if (stockFound is null)
         {
-            return TypedResults.NotFound();
+            return NotFound();
         }
 
         StockResponseDto stockDto = stockFound.ToFacet<Stock, StockResponseDto>();
-        return TypedResults.Ok(stockDto);
+        return Ok(stockDto);
     }
 
     [HttpGet]
-    public async Task<Results<Ok<List<StockResponseDto>>, BadRequest<ModelStateDictionary>>> GetAllStocksAsync([FromQuery] StockQueryObject query)
+    [Authorize]
+    public async Task<IActionResult> GetAllStocksAsync([FromQuery] StockQueryObject query)
     {
-        if (!ModelState.IsValid)
-        {
-            return TypedResults.BadRequest(ModelState);
-        }
-
         var stocks = dbContext.Stocks.AsQueryable();
         if (!string.IsNullOrWhiteSpace(query.Ticker))
         {
@@ -68,17 +63,12 @@ public class StocksController(AppDbContext dbContext) : ControllerBase
         var skip = (query.PageNumber - 1) * query.PageSize;
 
         var stocksResult = stocks.Skip(skip).Take(query.PageSize).Select(StockResponseDto.Projection).ToList();
-        return TypedResults.Ok(stocksResult);
+        return Ok(stocksResult);
     }
 
     [HttpPost]
-    public async Task<Results<Ok<StockResponseDto>, BadRequest<ModelStateDictionary>, BadRequest>> TryPostStockAsync([FromBody] PostStockRequestDto stockDto)
+    public async Task<IActionResult> TryPostStockAsync([FromBody] PostStockRequestDto stockDto)
     {
-        if (!ModelState.IsValid)
-        {
-            return TypedResults.BadRequest(ModelState);
-        }
-
         try
         {
             Stock stock = stockDto.ToSource<PostStockRequestDto, Stock>();
@@ -87,26 +77,21 @@ public class StocksController(AppDbContext dbContext) : ControllerBase
             await dbContext.SaveChangesAsync();
 
             var resultDto = stock.ToFacet<Stock, StockResponseDto>();
-            return TypedResults.Ok(resultDto);
+            return Ok(resultDto);
         }
         catch
         {
-            return TypedResults.BadRequest();
+            return BadRequest();
         }
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<Results<Ok<StockResponseDto>, BadRequest<ModelStateDictionary>, NotFound>> UpdateStockAsync([FromRoute] Guid id, [FromBody] PostStockRequestDto stockDto)
+    public async Task<IActionResult> UpdateStockAsync([FromRoute] Guid id, [FromBody] PostStockRequestDto stockDto)
     {
-        if (!ModelState.IsValid)
-        {
-            return TypedResults.BadRequest(ModelState);
-        }
-
         Stock? stockInDb = await dbContext.Stocks.FindAsync(id);
         if (stockInDb is null)
         {
-            return TypedResults.NotFound();
+            return NotFound();
         }
 
         stockInDb.MarketCap = stockDto.MarketCap;
@@ -117,21 +102,21 @@ public class StocksController(AppDbContext dbContext) : ControllerBase
         await dbContext.SaveChangesAsync();
 
         var resultDto = stockInDb.ToFacet<Stock, StockResponseDto>();
-        return TypedResults.Ok(resultDto);
+        return Ok(resultDto);
     }
 
     [HttpDelete("{id:guid}")]
-    public async Task<Results<NoContent, NotFound>> DeleteStockAsync([FromRoute] Guid id)
+    public async Task<IActionResult> DeleteStockAsync([FromRoute] Guid id)
     {
         Stock? stockInDb = await dbContext.Stocks.FindAsync(id);
         if (stockInDb is null)
         {
-            return TypedResults.NotFound();
+            return NotFound();
         }
 
         dbContext.Remove(stockInDb);
         await dbContext.SaveChangesAsync();
 
-        return TypedResults.NoContent();
+        return NoContent();
     }
 }
