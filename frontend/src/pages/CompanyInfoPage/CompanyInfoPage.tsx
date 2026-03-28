@@ -45,19 +45,25 @@ export const CompanyInfoPage: FC<ICompanyInfoPageProps> = () => {
 
     getProfileInit();
   }, [ticker]);
+  
   const format = (number: number | undefined): string => {
-    return typeof number === 'undefined'
-      ? 'N/A'
-      : number > 1000000000
-      ? `${(number / 1000000000).toFixed(2)} B`
-      : number > 1000000
-      ? `${(number / 1000000).toFixed(2)} M`
-      : number > 1000
-      ? `${(number / 1000).toFixed(2)} K`
-      : number >= 10
-      ? `${number.toFixed(2)} `
-      : number.toFixed(3);
-  };
+    if (typeof number === 'undefined' || number == 0) {
+      return 'N/A'
+    }
+
+    const absolute= Math.abs(number)
+    const formattedNumber = absolute > 1000000000 
+      ? `${(number / 1000000000).toFixed(2)} B` 
+      : absolute > 1000000 
+        ? `${(number / 1000000).toFixed(2)} M` 
+        : absolute > 1000 
+          ? `${(number / 1000).toFixed(2)} K` 
+          : absolute >= 10 
+            ? `${number.toFixed(2)}` 
+            : number.toFixed(3)
+            
+    return formattedNumber
+  }
 
   return (
     <div>
