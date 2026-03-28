@@ -13,7 +13,7 @@ public class TokenService(IConfiguration configuration) : ITokenService
     {
         List<Claim> claims = [
             new(JwtRegisteredClaimNames.Email, user.Email!),
-            new(JwtRegisteredClaimNames.Nickname, user.UserName!)
+            new(JwtRegisteredClaimNames.GivenName, user.UserName!)
         ];
 
         var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);

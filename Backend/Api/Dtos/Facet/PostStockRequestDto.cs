@@ -3,5 +3,5 @@ using Facet;
 
 namespace Api.Dtos.Facet;
 
-[Facet(typeof(Stock), exclude: nameof(Stock.Id), GenerateToSource = true)]
+[Facet(typeof(Stock), exclude: [nameof(Stock.Id), nameof(Stock.StockUsers)],  GenerateToSource = true)]
 public partial class PostStockRequestDto { }
