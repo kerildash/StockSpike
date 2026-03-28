@@ -6,9 +6,25 @@ interface IRatioListProps {
 }
 
 export const RatioList: FC<IRatioListProps> = ({config, data} : IRatioListProps) => { 
-  const format = (number: number): string => {
-    return number > 1000000000 ? `${(number / 1000000000).toFixed(2)} B` : number > 1000000 ? `${(number / 1000000).toFixed(2)} M` : number > 1000 ? `${(number / 1000).toFixed(2)} K` : number >=10 ? `${number.toFixed(2)}` : number.toFixed(3)
+  const format = (number: number | undefined): string => {
+    if (typeof number === 'undefined') {
+      return 'N/A'
+    }
+
+    const absolute= Math.abs(number)
+    const formattedNumber = absolute > 1000000000 
+      ? `${(number / 1000000000).toFixed(2)} B` 
+      : absolute > 1000000 
+        ? `${(number / 1000000).toFixed(2)} M` 
+        : absolute > 1000 
+          ? `${(number / 1000).toFixed(2)} K` 
+          : absolute >= 10 
+            ? `${number.toFixed(2)}` 
+            : number.toFixed(3)
+            
+    return formattedNumber
   }
+  
   const renderedItem = config.map((configItem: any) => {
     return (
       <li key={configItem.label} className='py-3 '>
