@@ -1,7 +1,8 @@
 import { type FC } from 'react';
 import { CardPortfolio } from '../CardPortfolio/CardPortfolio';
+import type { StockResponse } from '../../../models/StockResponse';
 interface ListPortfolioProps {
-  portfolioItems: string[];
+  portfolioItems: StockResponse[];
   onDeleteFromPortfolio: (e: any) => void;
 }
 
