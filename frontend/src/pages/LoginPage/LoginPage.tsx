@@ -42,8 +42,8 @@ export const LoginPage: FC<ILoginPageProps> = (props) => {
 
   return (
     <section>
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <div className="w-full border border-gray-400 bg-white rounded-lg md:mb-20 sm:max-w-md">
+      <div className='min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center px-6 mx-auto py-0 lg:py-0'>
+        <div className='w-full border border-gray-400 bg-white rounded-lg my-8 sm:max-w-md'>
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl leading-tight tracking-tight text-gray-800 md:text-2xl">
               Log in to your account

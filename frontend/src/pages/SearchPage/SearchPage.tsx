@@ -151,8 +151,8 @@ export const SearchPage: FC<ISearchPageProps> = () => {
   };
 
   return (
-    <div className='flex flex-col min-h-screen'>
-      <div className='flex-2 min-h-screen bg-gray-50'>
+    <div className='flex flex-col min-h-[calc(100vh-4rem)]'>
+      <div className='flex-2 bg-gray-50'>
         {/* First Column - CardList and Loading */}
         <div className='min-w-[20rem] p-6 lg:pr-[22rem]'>
           <Search
