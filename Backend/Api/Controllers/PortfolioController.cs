@@ -1,6 +1,9 @@
 ﻿using Api.Database;
 using Api.Dtos.Facet;
+using Api.Dtos.MappingExtensions;
 using Api.Models;
+using Api.Services;
+using Facet.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +15,7 @@ namespace Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class PortfolioController(AppDbContext context, UserManager<User> userManager) : ControllerBase
+public class PortfolioController(AppDbContext context, UserManager<User> userManager, IFinancialApiService financeService) : ControllerBase
 {
     [HttpGet]
     [Authorize]
@@ -57,7 +60,22 @@ public class PortfolioController(AppDbContext context, UserManager<User> userMan
         Stock? stockFound = await context.Stocks.FirstOrDefaultAsync(stock => stock.Ticker == ticker.ToUpper());
         if (stockFound is null)
         {
-            return NotFound($"Stock {ticker.ToUpper()} not found.");
+            var stockDto = await financeService.GetStockAsync(ticker);
+            if (stockDto is null)
+            {
+                return NotFound($"Stock {ticker.ToUpper()} not found.");
+            }
+
+            try
+            {
+                stockFound = stockDto.ToStock();
+                stockFound.Ticker = stockFound.Ticker.ToUpper();
+                await context.Stocks.AddAsync(stockFound);
+            }
+            catch
+            {
+                return StatusCode(500, $"Failed to add {ticker.ToUpper()} to portfolio.");
+            }
         }
 
         PortfolioItem portfolioItem = new()
@@ -65,6 +83,12 @@ public class PortfolioController(AppDbContext context, UserManager<User> userMan
             StockId = stockFound.Id,
             UserId = user.Id
         };
+
+        bool isItemAlreadyExists = await context.UsersStocks.ContainsAsync(portfolioItem);
+        if (isItemAlreadyExists)
+        {
+            return BadRequest($"Cannot add {ticker.ToUpper()}: already in portfolio.");
+        }
 
         await context.UsersStocks.AddAsync(portfolioItem);
         await context.SaveChangesAsync();

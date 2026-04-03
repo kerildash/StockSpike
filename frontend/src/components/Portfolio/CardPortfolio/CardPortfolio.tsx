@@ -1,17 +1,18 @@
 import { type FC } from "react";
 import { Link } from "react-router-dom";
+import type { StockResponse } from "../../../models/StockResponse";
 interface ICardPortfolioProps {
-    portfolioItem: string;
+    portfolioItem: StockResponse;
     onDelete: (e: any) => void;
 };
 
 export const CardPortfolio: FC<ICardPortfolioProps> = ({portfolioItem, onDelete}: ICardPortfolioProps) => {
     return (
         <div className="bg-white rounded-lg  border border-gray-200 p-4 flex items-center justify-between hover:border-gray-400 duration-200">
-            <Link to={`/company/${portfolioItem}/company-profile`} className="text-gray-900 font-medium">{portfolioItem}</Link>
+            <Link to={`/company/${portfolioItem.ticker}/company-profile`} className="text-gray-900 font-medium">{portfolioItem.ticker}</Link>
             <button 
                 onClick={onDelete} 
-                value={portfolioItem}
+                value={portfolioItem.ticker}
                 className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-full transition-colors duration-200"
                 title="Remove from portfolio"
             >

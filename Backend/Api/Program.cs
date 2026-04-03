@@ -18,6 +18,8 @@ public class Program
 
         // Add services to the container.
         builder.Services.AddScoped<ITokenService, TokenService>();
+        builder.Services.AddScoped<IFinancialApiService, FmpService>();
+        builder.Services.AddHttpClient();
 
         builder.Services.AddControllers();
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

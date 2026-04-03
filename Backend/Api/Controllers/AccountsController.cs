@@ -55,13 +55,13 @@ public class AccountsController(UserManager<User> userManager, SignInManager<Use
         User? user = await userManager.Users.FirstOrDefaultAsync(user => user.UserName == loginDto.Username);
         if (user is null)
         {
-            return Ok($"User {loginDto.Username} not found.");
+            return BadRequest($"User {loginDto.Username} not found.");
         }
 
         var result = await signInManager.CheckPasswordSignInAsync(user, loginDto.Password!, false);
         if (!result.Succeeded)
         {
-            return Ok($"Wrong password for {loginDto.Username}.");
+            return BadRequest($"Wrong password for {loginDto.Username}.");
         }
 
         string token = tokenService.CreateToken(user);
