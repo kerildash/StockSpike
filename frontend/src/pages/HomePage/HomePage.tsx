@@ -6,7 +6,7 @@ import { Footer } from '../../components/Footer/Footer';
 
 interface IHomePageProps {}
 
-export const HomePage: FC<IHomePageProps> = (props) => {
+export const HomePage: FC<IHomePageProps> = () => {
   const [search, setSearch] = useState('');
   const navigate = useNavigate();
 

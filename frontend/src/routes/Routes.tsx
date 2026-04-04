@@ -10,7 +10,7 @@ import { BalanceSheet } from '../components/CompanyInfo/BalanceSheet/BalanceShee
 import { CashflowStatement } from '../components/CompanyInfo/CashflowStatement/CashflowStatement';
 import { ProtectedRoute } from './ProtectedRoute';
 import { HomePage } from '../pages/HomePage/HomePage';
-import { ErrorPage } from '../pages/NotFoundPage/ErrorPage';
+import { ErrorPage } from '../pages/ErrorPage/ErrorPage';
 
 export const router = createBrowserRouter([
   {

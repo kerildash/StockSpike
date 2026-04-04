@@ -2,7 +2,7 @@ import { useState, type FC } from 'react';
 import { useNavigate } from 'react-router';
 interface IStartLoginRegisterProps {}
 
-export const StartLoginRegister: FC<IStartLoginRegisterProps> = (props) => {
+export const StartLoginRegister: FC<IStartLoginRegisterProps> = () => {
   const [username, setUsername] = useState('');
   const navigate = useNavigate();
 

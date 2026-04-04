@@ -7,7 +7,7 @@ import { Footer } from '../../components/Footer/Footer';
 import { isRouteErrorResponse, useRouteError } from 'react-router';
 interface IErrorPageProps {}
 
-export const ErrorPage: FC<IErrorPageProps> = (props) => {
+export const ErrorPage: FC<IErrorPageProps> = () => {
   const error = useRouteError();
   const isNotFound = isRouteErrorResponse(error) && error.status === 404;
 

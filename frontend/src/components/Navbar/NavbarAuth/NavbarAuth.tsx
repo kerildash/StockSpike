@@ -3,7 +3,7 @@ import { useAuth } from '../../../context/useAuth';
 import { Link } from 'react-router';
 interface INavbarAuthProps {}
 
-export const NavbarAuth: FC<INavbarAuthProps> = (props) => {
+export const NavbarAuth: FC<INavbarAuthProps> = () => {
   const { user, isLoggedIn, logOut } = useAuth();
   const username = user?.userName;
 

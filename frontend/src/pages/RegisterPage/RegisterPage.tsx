@@ -28,7 +28,7 @@ const validation = Yup.object().shape({
   password: Yup.string().required('Password is required'),
 });
 
-export const RegisterPage: FC<IRegisterPageProps> = (props) => {
+export const RegisterPage: FC<IRegisterPageProps> = () => {
   const { registerUser, isLoggedIn } = useAuth();
   const location = useLocation();
   const state = location.state as NavigationState | null;

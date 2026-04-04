@@ -2,7 +2,7 @@ import { type FC } from 'react';
 import { Link } from 'react-router-dom';
 interface ISidebarProps {}
 
-export const Sidebar: FC<ISidebarProps> = (props) => {
+export const Sidebar: FC<ISidebarProps> = () => {
   return (
     <nav className='block py-4 px-6 top-0 bottom-0 w-70 bg-transparent border-r-1 border-gray-200 left-0 absolute flex-row flex-nowrap md:z-10 z-9999 transform md:translate-x-0 -translate-x-full'>
       <div className='flex-col min-h-full px-0 flex flex-wrap items-center justify-between w-full mx-auto overflow-y-auto overflow-x-hidden'>
