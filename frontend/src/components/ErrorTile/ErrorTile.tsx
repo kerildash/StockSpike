@@ -5,6 +5,7 @@ interface IErrorTileProps {
   className?: string;
   children?: React.ReactNode;
   isWarning?: boolean;
+  title?: string;
 }
 
 export const ErrorTile: FC<IErrorTileProps> = ({
@@ -12,12 +13,13 @@ export const ErrorTile: FC<IErrorTileProps> = ({
   className,
   children,
   isWarning = false,
+  title
 }: IErrorTileProps) => {
   return (
     <div
       className={` bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center ${className}`}
     >
-      {isWarning && <div className='text-4xl mb-4'>⚠️</div>}
+      {isWarning ? <div className='text-4xl mb-4'>⚠️</div> : title && <div className='text-4xl mb-4 text-yellow-900'>{title}</div>}
       <p className='text-yellow-700 font-medium text-lg'>{message}</p>
       {children}
     </div>

@@ -10,11 +10,13 @@ import { BalanceSheet } from '../components/CompanyInfo/BalanceSheet/BalanceShee
 import { CashflowStatement } from '../components/CompanyInfo/CashflowStatement/CashflowStatement';
 import { ProtectedRoute } from './ProtectedRoute';
 import { HomePage } from '../pages/HomePage/HomePage';
+import { ErrorPage } from '../pages/NotFoundPage/ErrorPage';
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
