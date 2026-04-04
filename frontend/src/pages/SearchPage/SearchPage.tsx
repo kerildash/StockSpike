@@ -25,6 +25,7 @@ import {
   getGuestPortfolio,
 } from '../../services/GuestPortfolioService';
 import { useLocation } from 'react-router';
+import { Footer } from '../../components/Footer/Footer';
 
 interface ISearchPageProps {}
 
@@ -154,22 +155,24 @@ export const SearchPage: FC<ISearchPageProps> = () => {
     <div className='flex flex-col min-h-[calc(100vh-4rem)]'>
       <div className='flex-2 bg-gray-50'>
         {/* First Column - CardList and Loading */}
-        <div className='min-w-[20rem] p-6 lg:pr-[22rem]'>
-          <Search
-            onChange={searchOnChange}
-            onKeyDown={onKeyDown}
-            search={search}
-          />
-          {loading ? (
-            <Loading />
-          ) : serverError ? (
-            <ErrorTile message={serverError} className='m-15' isWarning />
-          ) : (
-            <CardList
-              companies={searchResponse}
-              onAddToPortfolio={onAddToPortfolio}
+        <div>
+          <div className='min-w-[20rem] p-6 lg:pr-[22rem]'>
+            <Search
+              onChange={searchOnChange}
+              onKeyDown={onKeyDown}
+              search={search}
             />
-          )}
+            {loading ? (
+              <Loading />
+            ) : serverError ? (
+              <ErrorTile message={serverError} className='m-15' isWarning />
+            ) : (
+              <CardList
+                companies={searchResponse}
+                onAddToPortfolio={onAddToPortfolio}
+              />
+            )}
+          </div>
         </div>
 
         {/* Second Column - Portfolio */}
@@ -185,6 +188,8 @@ export const SearchPage: FC<ISearchPageProps> = () => {
           </div>
         </div>
       </div>
+      
+      <Footer className='lg:pr-80'/>
     </div>
   );
 };
