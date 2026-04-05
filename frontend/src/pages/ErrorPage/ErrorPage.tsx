@@ -25,7 +25,7 @@ export const ErrorPage: FC<IErrorPageProps> = () => {
   const notFound = (
   <ErrorTile title='😕' message={'Page not found'}>
     <p className='text-yellow-700 pt-4'>
-      The page is probably moved, deleted, or yet not created.
+      The page has probably been moved, deleted, or not yet created.
     </p>
     <p className='text-yellow-700 pt-2'>
       If you think this is an error, please {' '}
