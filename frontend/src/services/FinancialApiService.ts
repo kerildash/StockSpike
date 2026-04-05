@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const api = "https://localhost:7026/api";
+
 export interface ICompanySearch {
   currency: string;
   exchangeFullName: string;
@@ -248,20 +250,11 @@ export interface ICompanyCashflowStatement {
   interestPaid: number;
 }
 
-//TODO REDUCE REDUNDANCY
-
 export const searchCompanies = async (query: string) : Promise<ICompanySearch[] | string> => {
-  const apiKey = import.meta.env.VITE_API_KEY;
-  if (!apiKey) throw new Error('API key is not set');
   try {
     const response = await axios.get<ICompanySearch[]>(
-      `https://financialmodelingprep.com/stable/search-symbol`,
-      {
-        params: {
-          query,
-          apikey: apiKey,
-        },
-      }
+      `${api}/fmp/search`,
+      { params: { query } }
     );
     return response.data;
   } catch (error) {
@@ -276,80 +269,50 @@ export const searchCompanies = async (query: string) : Promise<ICompanySearch[] 
 };
 
 export const getCompanyInfo = async (ticker: string) : Promise<ICompanyInfo | string> => {
-  const apiKey = import.meta.env.VITE_API_KEY;
-  if (!apiKey) throw new Error('API key is not set');
   try {
     const response = await axios.get<ICompanyInfo[]>(
-      `https://financialmodelingprep.com/stable/profile`,
-      {
-        params: {
-          symbol: ticker,
-          apikey: apiKey,
-        },
-      }
+      `${api}/fmp/profile/${ticker}`
     );
-    console.log(response);
     return response.data[0];
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error('Error getting company info:', error.message);
       return 'Error getting company info';
-    }
-    else {
+    } else {
       console.error('unexpected error', error);
       return 'Unexpected error';
     }
   }
 };
-
 
 export const getTtmKeyMetrics = async (ticker: string) : Promise<IKeyMetricsTtm | string> => {
-  const apiKey = import.meta.env.VITE_API_KEY;
-  if (!apiKey) throw new Error('API key is not set');
   try {
     const response = await axios.get<IKeyMetricsTtm[]>(
-      `https://financialmodelingprep.com/stable/key-metrics-ttm`,
-      {
-        params: {
-          symbol: ticker,
-          apikey: apiKey,
-        },
-      }
+      `${api}/fmp/key-metrics-ttm/${ticker}`
     );
     return response.data[0];
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error('Error getting company info:', error.message);
-      return 'Error getting company info';
-    }
-    else {
+      console.error('Error getting key metrics:', error.message);
+      return 'Error getting key metrics';
+    } else {
       console.error('unexpected error', error);
       return 'Unexpected error';
     }
   }
 };
 
-
 export const getIncomeStatement = async (ticker: string) : Promise<ICompanyIncomeStatement[] | string> => {
-  const apiKey = import.meta.env.VITE_API_KEY;
-  if (!apiKey) throw new Error('API key is not set');
   try {
     const response = await axios.get<ICompanyIncomeStatement[]>(
-      `https://financialmodelingprep.com/stable/income-statement`,
-      {
-        params: {
-          symbol: ticker,
-          apikey: apiKey,
-        },
-      }
+      `${api}/fmp/income-statement/${ticker}`
     );
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error('Error getting company info:', error.message);
-      return 'Error getting company info';
-    }
-    else {
+      console.error('Error getting income statement:', error.message);
+      return 'Error getting income statement';
+    } else {
       console.error('unexpected error', error);
       return 'Unexpected error';
     }
@@ -357,52 +320,33 @@ export const getIncomeStatement = async (ticker: string) : Promise<ICompanyIncom
 };
 
 export const getBalanceSheet = async (ticker: string) : Promise<ICompanyBalanceSheetStatement[] | string> => {
-  const apiKey = import.meta.env.VITE_API_KEY;
-  if (!apiKey) throw new Error('API key is not set');
   try {
     const response = await axios.get<ICompanyBalanceSheetStatement[]>(
-      `https://financialmodelingprep.com/stable/balance-sheet-statement`,
-      {
-        params: {
-          symbol: ticker,
-          apikey: apiKey,
-        },
-      }
+      `${api}/fmp/balance-sheet/${ticker}`
     );
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error('Error getting company info:', error.message);
-      return 'Error getting company info';
-    }
-    else {
+      console.error('Error getting balance sheet:', error.message);
+      return 'Error getting balance sheet';
+    } else {
       console.error('unexpected error', error);
       return 'Unexpected error';
     }
   }
 };
 
-
 export const getCashflowStatement = async (ticker: string) : Promise<ICompanyCashflowStatement[] | string> => {
-  const apiKey = import.meta.env.VITE_API_KEY;
-  if (!apiKey) throw new Error('API key is not set');
   try {
     const response = await axios.get<ICompanyCashflowStatement[]>(
-      `https://financialmodelingprep.com/stable/cash-flow-statement`,
-      {
-        params: {
-          symbol: ticker,
-          apikey: apiKey,
-        },
-      }
+      `${api}/fmp/cash-flow-statement/${ticker}`
     );
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error('Error getting company info:', error.message);
-      return 'Error getting company info';
-    }
-    else {
+      console.error('Error getting cashflow statement:', error.message);
+      return 'Error getting cashflow statement';
+    } else {
       console.error('unexpected error', error);
       return 'Unexpected error';
     }

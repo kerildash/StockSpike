@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import type { ICompanySearch } from '../../api';
+import type { ICompanySearch } from '../../services/FinancialApiService';
 import AddToPortfolio from '../Portfolio/AddToPortfolio/AddToPortfolio';
 import React, { type SyntheticEvent } from 'react';
 

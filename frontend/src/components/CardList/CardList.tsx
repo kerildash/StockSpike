@@ -1,6 +1,6 @@
 import React, { type SyntheticEvent } from 'react';
 import Card from '../Card/Card';
-import { type ICompanySearch } from '../../api';
+import { type ICompanySearch } from '../../services/FinancialApiService';
 import { v4 as uuidv4 } from 'uuid';
 
 interface CardListProps {

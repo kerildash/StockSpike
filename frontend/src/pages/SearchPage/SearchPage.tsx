@@ -5,7 +5,7 @@ import {
   type KeyboardEvent,
   useEffect,
 } from 'react';
-import { searchCompanies, type ICompanySearch } from '../../api';
+import { searchCompanies, type ICompanySearch } from '../../services/FinancialApiService';
 import { ListPortfolio } from '../../components/Portfolio/ListPortfolio/ListPortfolio';
 import CardList from '../../components/CardList/CardList';
 import Search from '../../components/Search/Search';
