@@ -25,6 +25,8 @@ import {
   getGuestPortfolio,
 } from '../../services/GuestPortfolioService';
 import { useLocation } from 'react-router';
+import { Footer } from '../../components/Footer/Footer';
+import { WarningPortfolio } from '../../components/Portfolio/WarningPortfolio/WarningPortfolio';
 
 interface ISearchPageProps {}
 
@@ -38,21 +40,20 @@ export const SearchPage: FC<ISearchPageProps> = () => {
   const [serverError, setServerError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [portfolioItems, setPortfolioItems] = useState<StockResponse[]>([]);
-  
+
   const location = useLocation();
   const navigationState = location.state as NavigationState | null;
 
   const { isLoggedIn } = useAuth();
 
   useEffect(() => {
-    if (navigationState?.search){
+    if (navigationState?.search) {
       setSearch(navigationState?.search);
       runSearch(navigationState?.search);
     }
 
     getPortfolio();
   }, []);
-  
 
   const getPortfolio = () => {
     if (isLoggedIn()) {
@@ -100,7 +101,7 @@ export const SearchPage: FC<ISearchPageProps> = () => {
     } else {
       const item = e.target[0].value;
       const isAdded = addToPortfolio(item);
-      if(!isAdded){
+      if (!isAdded) {
         toast.error(`${item.toUpperCase()} already in portfolio.`);
         return;
       }
@@ -142,7 +143,7 @@ export const SearchPage: FC<ISearchPageProps> = () => {
       setSearchResponse(result);
     }
     setLoading(false);
-  }
+  };
 
   const onKeyDown = async (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -154,30 +155,38 @@ export const SearchPage: FC<ISearchPageProps> = () => {
     <div className='flex flex-col min-h-[calc(100vh-4rem)]'>
       <div className='flex-2 bg-gray-50'>
         {/* First Column - CardList and Loading */}
-        <div className='min-w-[20rem] p-6 lg:pr-[22rem]'>
-          <Search
-            onChange={searchOnChange}
-            onKeyDown={onKeyDown}
-            search={search}
-          />
-          {loading ? (
-            <Loading />
-          ) : serverError ? (
-            <ErrorTile message={serverError} className='m-15' isWarning />
-          ) : (
-            <CardList
-              companies={searchResponse}
-              onAddToPortfolio={onAddToPortfolio}
+        <div>
+          <div className='min-w-[20rem] p-6 lg:pr-[22rem]'>
+            <Search
+              onChange={searchOnChange}
+              onKeyDown={onKeyDown}
+              search={search}
             />
-          )}
+            {loading ? (
+              <Loading />
+            ) : serverError ? (
+              <ErrorTile message={serverError} className='m-15' isWarning />
+            ) : (
+              <CardList
+                companies={searchResponse}
+                onAddToPortfolio={onAddToPortfolio}
+              />
+            )}
+          </div>
         </div>
 
         {/* Second Column - Portfolio */}
         <div className='hidden lg:block fixed top-16 right-0 h-[calc(100vh-4rem)] w-80 overflow-y-auto bg-white border-l border-gray-200'>
           <div className='p-6'>
-            <h2 className='text-2xl font-bold text-gray-900 mb-6 border-b border-gray-200 pb-3'>
-              Portfolio
-            </h2>
+            <div className='mb-6 border-b border-gray-200 pb-3'>
+              <h2 className='text-2xl font-bold text-gray-900'>Portfolio</h2>
+              {!isLoggedIn() && (
+                <div className='pt-2'>
+                  <WarningPortfolio />
+                </div>
+              )}
+            </div>
+
             <ListPortfolio
               portfolioItems={portfolioItems}
               onDeleteFromPortfolio={onDeleteFromPortfolio}
@@ -185,6 +194,8 @@ export const SearchPage: FC<ISearchPageProps> = () => {
           </div>
         </div>
       </div>
+
+      <Footer className='lg:pr-80' />
     </div>
   );
 };

@@ -12,7 +12,7 @@ export const Dashboard: FC<IDashboardProps> = ({
   description
 }: IDashboardProps) => {
   return (
-    <div className='m-15'>
+    <div className='mt-15 mx-15 mb-5'>
       <div className=''>{children}</div>
       <div className=''>{<Outlet context={{ticker, description}}/>}</div>
     </div>

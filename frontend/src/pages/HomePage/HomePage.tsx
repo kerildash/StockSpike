@@ -2,10 +2,11 @@ import { useState, type FC } from 'react';
 import { useNavigate } from 'react-router';
 import Search from '../../components/Search/Search';
 import { StartLoginRegister } from '../../components/StartLoginRegister/StartLoginRegister';
+import { Footer } from '../../components/Footer/Footer';
 
 interface IHomePageProps {}
 
-export const HomePage: FC<IHomePageProps> = (props) => {
+export const HomePage: FC<IHomePageProps> = () => {
   const [search, setSearch] = useState('');
   const navigate = useNavigate();
 
@@ -21,8 +22,9 @@ export const HomePage: FC<IHomePageProps> = (props) => {
 
   return (
     <>
-      <div className='lg:min-w-350 lg:w-350 py-10 md:px-40 sm:px-20 px-10 lg:mx-auto'>
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-15'>
+    <div>
+      <div className='lg:min-w-340 lg:w-340 min-h-[calc(100vh-7.5rem)] md:px-40 sm:px-20 px-10 py-5 lg:mx-auto flex items-center'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-15 '>
           <div className='flex flex-col justify-between gap-10'>
 
             <div className='font-bold text-4xl'>
@@ -60,6 +62,9 @@ export const HomePage: FC<IHomePageProps> = (props) => {
 
           </div>
         </div>
+      </div>
+
+      <Footer />
       </div>
     </>
   );
