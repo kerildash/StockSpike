@@ -1,5 +1,5 @@
 import { type FC, useEffect, useState } from 'react';
-import { getCompanyInfo, type ICompanyInfo } from '../../api';
+import { getCompanyInfo, type ICompanyInfo } from '../../services/FinancialApiService';
 import { useParams } from 'react-router-dom';
 import { Sidebar } from '../../components/CompanyInfo/Sidebar/Sidebar';
 import { Dashboard } from '../../components/CompanyInfo/Dashboard/Dashboard';

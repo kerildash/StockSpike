@@ -1,6 +1,6 @@
 import { useEffect, useState, type FC } from 'react';
 import { Table } from '../../Table/Table';
-import { type ICompanyIncomeStatement, getIncomeStatement } from '../../../api';
+import { type ICompanyIncomeStatement, getIncomeStatement } from '../../../services/FinancialApiService';
 import { Link, useOutletContext } from 'react-router-dom';
 import Loading from '../../Loading/Loading';
 import { ErrorTile } from '../../ErrorTile/ErrorTile';

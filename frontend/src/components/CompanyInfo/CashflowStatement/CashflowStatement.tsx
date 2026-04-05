@@ -3,7 +3,7 @@ import { Table } from '../../Table/Table';
 import {
   type ICompanyCashflowStatement,
   getCashflowStatement,
-} from '../../../api';
+} from '../../../services/FinancialApiService';
 import { Link, useOutletContext } from 'react-router-dom';
 import Loading from '../../Loading/Loading';
 import { ErrorTile } from '../../ErrorTile/ErrorTile';

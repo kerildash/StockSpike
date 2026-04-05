@@ -1,5 +1,5 @@
 import { useEffect, useState, type FC } from 'react';
-import { getTtmKeyMetrics, type IKeyMetricsTtm } from '../../../api';
+import { getTtmKeyMetrics, type IKeyMetricsTtm } from '../../../services/FinancialApiService';
 import { RatioList } from '../../RatioList/RatioList';
 import { Link, useOutletContext } from 'react-router-dom';
 import Loading from '../../Loading/Loading';
