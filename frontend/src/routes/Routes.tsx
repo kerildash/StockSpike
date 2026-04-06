@@ -12,54 +12,59 @@ import { ProtectedRoute } from './ProtectedRoute';
 import { HomePage } from '../pages/HomePage/HomePage';
 import { ErrorPage } from '../pages/ErrorPage/ErrorPage';
 
-export const router = createBrowserRouter([
+export const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <App />,
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          index: true,
+          element: <HomePage />
+        },
+        {
+          path: 'search',
+          element: <SearchPage />,
+        },
+        {
+          path: 'login',
+          element: <LoginPage />,
+        },
+        {
+          path: 'signup',
+          element: <RegisterPage />,
+        },
+        {
+          path: 'company/:ticker',
+          element: <ProtectedRoute><CompanyInfoPage /></ProtectedRoute>,
+          children: [
+            {
+              index: true,
+              element: <Navigate to="company-profile" replace />
+            },
+            {
+              path: 'company-profile',
+              element: <CompanyProfile />
+            },
+            {
+              path: 'income-statement',
+              element: <IncomeStatement />
+            },
+            {
+              path: 'balance-sheet',
+              element: <BalanceSheet />
+            },
+            {
+              path: 'cashflow-statement',
+              element: <CashflowStatement />
+            },
+          ],
+        },
+      ],
+    },
+  ],
   {
-    path: '/StockSpike/',
-    element: <App />,
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        index: true,
-        element: <HomePage />
-      },
-      {
-        path: 'search',
-        element: <SearchPage />,
-      },
-      {
-        path: 'login',
-        element: <LoginPage />,
-      },      
-      {
-        path: 'signup',
-        element: <RegisterPage />,
-      },
-      {
-        path: 'company/:ticker',
-        element: <ProtectedRoute><CompanyInfoPage /></ProtectedRoute>,
-        children: [
-          {
-            index: true,
-            element: <Navigate to="company-profile" replace />
-          },
-          {
-            path: 'company-profile',
-            element: <CompanyProfile />
-          },
-          {
-            path: 'income-statement',
-            element: <IncomeStatement />
-          },
-          {
-            path: 'balance-sheet',
-            element: <BalanceSheet />
-          },
-          {
-            path: 'cashflow-statement',
-            element: <CashflowStatement />
-          },
-        ],
-      },
-    ],
-  },
-]);
+    basename: import.meta.env.BASE_URL,
+  }
+);
